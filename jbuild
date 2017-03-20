@@ -1,0 +1,6 @@
+(jbuild_version 1)
+
+(executables
+ ((names (parser interpreter desugar))
+  (libraries (core))
+))
