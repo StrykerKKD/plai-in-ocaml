@@ -1,4 +1,4 @@
-open Core
+open Core.Std
 
 type arithC =
     | NumC of int

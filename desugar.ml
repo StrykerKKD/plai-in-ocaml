@@ -1,4 +1,4 @@
-open Core
+open Core.Std
 
 type arithS =
     | NumS of int
