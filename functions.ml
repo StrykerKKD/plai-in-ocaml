@@ -36,30 +36,48 @@ let rec get_fundef n fds =
         else
             get_fundef n tail
 
-let rec interp e fds =
+let rec interp_lazy e fds =
     match e with
     | NumC n -> n
     | IdC _ -> failwith "shouldn't get here"
     | AppC (f, a) -> 
         let fd = get_fundef f fds in
-            interp (subst a (fdc_arg fd) (fdc_body fd)) fds
-    | PlusC(l, r) -> (interp l fds) + (interp r fds)
-    | MultC(l, r) -> (interp l fds) * (interp r fds)
+            interp_lazy (subst a (fdc_arg fd) (fdc_body fd)) fds
+    | PlusC(l, r) -> (interp_lazy l fds) + (interp_lazy r fds)
+    | MultC(l, r) -> (interp_lazy l fds) * (interp_lazy r fds)
+
+let rec interp_eager e fds =
+    match e with
+    | NumC n -> n
+    | IdC _ -> failwith "shouldn't get here"
+    | AppC (f, a) -> 
+        let fd = get_fundef f fds in
+        let a = NumC(interp_eager a fds) in
+            interp_eager (subst a (fdc_arg fd) (fdc_body fd)) fds
+    | PlusC(l, r) -> (interp_eager l fds) + (interp_eager r fds)
+    | MultC(l, r) -> (interp_eager l fds) * (interp_eager r fds)
 
 let _ = 
     let e = AppC("double", NumC 5) in
     let fds = [FdC("double", "x", PlusC( IdC "x", IdC "x"))] in
-        interp e fds |> print_int |> print_newline
+        interp_lazy e fds |> print_int |> print_newline
 
 let _ = 
     let e = AppC("quadruple", NumC 5) in
     let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x"));
                 FdC("quadruple", "x", AppC("double", AppC("double", IdC "x"))) ] in
-        interp e fds |> print_int |> print_newline
+        interp_lazy e fds |> print_int |> print_newline
 
 let _ = 
     let e = AppC("quadruple", AppC("const5", NumC 100)) in
     let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x"));
                 FdC("quadruple", "x", AppC("double", AppC("double", IdC "x")));
                 FdC("const5", "_", NumC 5) ] in
-        interp e fds |> print_int |> print_newline
+        interp_lazy e fds |> print_int |> print_newline
+
+let _ = 
+    let e = AppC("quadruple", AppC("const5", NumC 100)) in
+    let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x"));
+                FdC("quadruple", "x", AppC("double", AppC("double", IdC "x")));
+                FdC("const5", "_", NumC 5) ] in
+        interp_eager e fds |> print_int |> print_newline
