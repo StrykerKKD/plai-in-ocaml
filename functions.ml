@@ -50,3 +50,16 @@ let _ =
     let e = AppC("double", NumC 5) in
     let fds = [FdC("double", "x", PlusC( IdC "x", IdC "x"))] in
         interp e fds |> print_int |> print_newline
+
+let _ = 
+    let e = AppC("quadruple", NumC 5) in
+    let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x"));
+                FdC("quadruple", "x", AppC("double", AppC("double", IdC "x"))) ] in
+        interp e fds |> print_int |> print_newline
+
+let _ = 
+    let e = AppC("quadruple", AppC("const5", NumC 100)) in
+    let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x"));
+                FdC("quadruple", "x", AppC("double", AppC("double", IdC "x")));
+                FdC("const5", "_", NumC 5) ] in
+        interp e fds |> print_int |> print_newline
