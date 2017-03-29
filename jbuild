@@ -1,6 +1,6 @@
 (jbuild_version 1)
 
 (executables
- ((names (parser interpreter desugar functions))
+ ((names (parser interpreter desugar functions enviroments))
   (libraries (core))
 ))
