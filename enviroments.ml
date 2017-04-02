@@ -82,31 +82,31 @@ let _ =
     let expr = PlusC(NumC 10, AppC("const5", NumC 10)) in
     let env = mt_env in
     let fds = [ FdC("const5", "_", NumC 5) ] in
-        interp_faulty expr env fds |> print_int |> print_newline
+    interp_faulty expr env fds |> print_int |> print_newline
 
 let _ = 
     let expr = PlusC(NumC 10, AppC("double", PlusC(NumC 1, NumC 2))) in
     let env = mt_env in
     let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x")) ] in
-        interp_faulty expr env fds |> print_int |> print_newline
+    interp_faulty expr env fds |> print_int |> print_newline
 
 let _ = 
     let expr = PlusC(NumC 10, AppC("quadruple", PlusC(NumC 1, NumC 2))) in
     let env = mt_env in
     let fds = [ FdC("double", "x", PlusC( IdC "x", IdC "x"));
                 FdC("quadruple", "x", AppC("double", AppC("double", IdC "x"))) ] in
-        interp_faulty expr env fds |> print_int |> print_newline
+    interp_faulty expr env fds |> print_int |> print_newline
 
 let _ = 
     let expr = AppC("f1", NumC 3) in
     let env = mt_env in
     let fds = [ FdC("f1", "x", AppC( "f2", NumC 4));
                 FdC("f2", "y", PlusC(IdC "x", IdC "y")) ] in
-        interp_faulty expr env fds |> print_int |> print_newline
+    interp_faulty expr env fds |> print_int |> print_newline
 
 let _ = 
     let expr = AppC("f1", NumC 3) in
     let env = mt_env in
     let fds = [ FdC("f1", "x", AppC( "f2", NumC 4));
                 FdC("f2", "y", PlusC(IdC "x", IdC "y")) ] in
-        interp expr env fds |> print_int |> print_newline
+    interp expr env fds |> print_int |> print_newline
