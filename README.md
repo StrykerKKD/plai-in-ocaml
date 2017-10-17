@@ -2,9 +2,12 @@
 This project implements the projects from [PLAI](http://cs.brown.edu/courses/cs173/2012/book/) in ocaml.
 
 ## How to use:
-For this project you need ocaml and opam. Also this projects depends on core and jbuilder:
+You should use the project with the latest version of the ocaml compiler.
+You can optain the latest version of ocaml with the use of the [opam switch command](https://opam.ocaml.org/doc/Usage.html#opam-switch).
+
+Also this projects depends on core and ppx_deriving:
 ```sh
-opam install core jbuilder
+opam install core ppx_deriving
 ```
 Clone the repo:
 ```sh
