@@ -1,7 +1,8 @@
 (jbuild_version 1)
 
 (executables
- ((names (parser interpreter desugar functions enviroments functions_anywhere functions_anywhere_closures))
+ ((names (parser interpreter desugar functions enviroments 
+          functions_anywhere functions_anywhere_closures mutation))
   (libraries (core))
   (preprocess (pps (ppx_deriving.std)))
 ))
